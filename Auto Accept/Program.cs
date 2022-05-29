@@ -26,25 +26,24 @@ while (true)
 
         memoryGraphics.CopyFromScreen(850, 403, 0, 0, s);
 
-        //That's it! Save the image in the directory and this will work like charm. 
+       
         var filePath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory) + @"\image.png";
         string fileName = string.Format(filePath);
         memoryImage.Save(fileName);
 
         using (var Input = new OcrInput(fileName))
         {
-            //Input.Deskew();  // use if image not straight
-            Input.DeNoise(); // use if image contains digital noise
+            Input.DeNoise();
             var Result = Ocr.Read(Input);
             Console.WriteLine(Result.Text);
 
-            if (Result.Text != "ACCEPT") // if not accept wait 4 secs and try again
+            if (Result.Text != "ACCEPT")
             {
                 Console.WriteLine("No game ):");
                 Thread.Sleep(3000);
                 Main();
             }
-            else if (Result.Text == "ACCEPT") // move mouse to accept button and click
+            else if (Result.Text == "ACCEPT")
             {
                 SetCursorPos(1050, 420);
                 Console.WriteLine("Game found!");
